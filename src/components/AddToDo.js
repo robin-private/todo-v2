@@ -13,7 +13,7 @@ function AddToDo({ onAddToDo }) {
 
   return (
     <div className="TodoWrapper">
-      <h1>Do or Die Trying!</h1>
+      <h1>To do!</h1>
       <form className="TodoForm"  onSubmit={handleSubmit}>
         <input
           type="text"
