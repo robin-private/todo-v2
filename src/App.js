@@ -1,23 +1,36 @@
-import logo from './logo.svg';
 import './App.css';
+import React from "react";
+import AddToDo from "./components/AddToDo";
+import ToDoList from "./components/ToDoList";
+import useLocalStorageState from "./components/LocalStorage";
 
 function App() {
+  const [toDoList, setToDoList] = useLocalStorageState("toDoList", []);
+
+  const handleAddToDo = (newToDo) => {
+    setToDoList([...toDoList, { id: Date.now(), text: newToDo }]);
+  };
+
+  const handleDeleteToDo = (id) => {
+    setToDoList(toDoList.filter((item) => item.id !== id));
+  };
+
+  const handleEditToDo = (id, updatedText) => {
+    setToDoList(
+      toDoList.map((item) =>
+        item.id === id ? { ...item, text: updatedText } : item
+      )
+    );
+  };
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <AddToDo onAddToDo={handleAddToDo} />
+      <ToDoList
+        toDoList={toDoList}
+        onDeleteToDo={handleDeleteToDo}
+        onEditToDo={handleEditToDo}
+      />
     </div>
   );
 }
